@@ -2,17 +2,19 @@ version: "3.7"
 services:
   php:
     build:
-      context: ./
+      context: backend
       dockerfile: build/Dockerfile
       target: php_runtime
     volumes:
-      - ".:/app"
+      - "./backend:/app"
   nginx:
     build:
-      context: ./
+      context: frontend
       dockerfile: build/Dockerfile
       target: nginx_runtime
+    depends_on:
+      - php
     volumes:
-      - ".:/app"
+      - "./frontend:/app"
     ports:
       - "8080:80"
