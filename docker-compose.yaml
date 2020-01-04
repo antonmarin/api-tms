@@ -1,0 +1,18 @@
+version: "3.7"
+services:
+  php:
+    build:
+      context: ./
+      dockerfile: build/Dockerfile
+      target: php_runtime
+    volumes:
+      - ".:/app"
+  nginx:
+    build:
+      context: ./
+      dockerfile: build/Dockerfile
+      target: nginx_runtime
+    volumes:
+      - ".:/app"
+    ports:
+      - "8080:80"
