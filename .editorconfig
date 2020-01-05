@@ -50,3 +50,6 @@ indent_style = tab
 
 [package.json]
 indent_size = 2
+
+[Gopkg.*]
+indent_size = 2
