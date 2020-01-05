@@ -37,6 +37,9 @@ tasks:
     cmds:
       - docker run --rm -v $PWD:/app -w /app hadolint/hadolint:latest-debian
         sh -c "find . -name Dockerfile | xargs -L1 hadolint"
+  lint-markdown:
+    cmds:
+      - docker run -i --rm -v $PWD:/work tmknom/markdownlint /work
 
   test:
     desc: "PHPStan & Test application. Run locally after deploy"
