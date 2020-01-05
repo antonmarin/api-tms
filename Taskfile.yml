@@ -5,10 +5,8 @@ includes:
   backend: ./backend
   frontend: ./frontend
 
-expansions: 5
-
 vars:
-  IMAGES_BASE_REPOSITORY: "gcr.io/mythic-guild-264223"
+  IMAGES_BASE_REPOSITORY: "api-tms"
   IMAGES_DEFAULT_TAG: "latest"
 
 tasks:
@@ -34,7 +32,8 @@ tasks:
 #        --google-project mythic-guild-264223
 #        --google-zone us-central1-a
 #        --google-machine-type f1-micro
-#        --tags http-server
+#        --google-machine-image https://www.googleapis.com/compute/v1/projects/cos-cloud/global/images/cos-stable
+#        --google-tags http-server
 #        docker-machine-1
 #      - gcloud compute instances create bookshelf \
 #        --image-family=debian-8 \
