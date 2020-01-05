@@ -1,0 +1,46 @@
+---
+version: '2'
+
+includes:
+  backend: ./backend
+  frontend: ./frontend
+
+expansions: 5
+
+vars:
+  IMAGES_BASE_REPOSITORY: "gcr.io/mythic-guild-264223"
+  IMAGES_DEFAULT_TAG: "latest"
+
+tasks:
+  build:
+    desc: "Build full application"
+    cmds:
+      - docker build
+        -t {{.IMAGES_PHP}}
+        -f backend/build/Dockerfile
+        backend
+      - docker build
+        -t {{.IMAGES_NGINX}}
+        -f frontend/build/Dockerfile
+        frontend
+    vars:
+      IMAGES_PHP: "{{.IMAGES_BASE_REPOSITORY}}/php:{{ default .IMAGES_DEFAULT_TAG .IMAGES_TAG }}"
+      IMAGES_NGINX: "{{.IMAGES_BASE_REPOSITORY}}/nginx:{{ default .IMAGES_DEFAULT_TAG .IMAGES_TAG }}"
+    
+  lint:
+    desc: "Quick tests not required to build app"
+    cmds:
+      - task: lint-dockerfile
+      - task: backend:lint
+  lint-dockerfile:
+    desc: "Validate Dockerfile best practices"
+    cmds:
+      - docker run --rm -v $PWD:/app -w /app hadolint/hadolint:latest-debian
+        sh -c "find . -name Dockerfile | xargs -L1 hadolint"
+
+  test:
+    desc: "PHPStan & Test application. Run locally after deploy"
+    cmds:
+      - docker-compose exec php vendor/bin/phpstan analyse /app
+      - docker-compose exec php vendor/bin/codecept run --steps
+
