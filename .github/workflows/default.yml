@@ -16,4 +16,10 @@ jobs:
           version: '2.7.1'
       - name: Build containers
         run: task build
+      - name: Login to gcloud
+        run: echo "Login here"
+      - name: Push containers
+        run: echo "Push here"
+      - name: Deploy to gcp
+        run: echo "deploy to gcp"
       

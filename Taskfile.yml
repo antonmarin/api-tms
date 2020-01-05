@@ -26,7 +26,34 @@ tasks:
     vars:
       IMAGES_PHP: "{{.IMAGES_BASE_REPOSITORY}}/php:{{ default .IMAGES_DEFAULT_TAG .IMAGES_TAG }}"
       IMAGES_NGINX: "{{.IMAGES_BASE_REPOSITORY}}/nginx:{{ default .IMAGES_DEFAULT_TAG .IMAGES_TAG }}"
-    
+
+  .create-prod:
+    cmds:
+#      - docker-machine create
+#        --driver google
+#        --google-project mythic-guild-264223
+#        --google-zone us-central1-a
+#        --google-machine-type f1-micro
+#        --tags http-server
+#        docker-machine-1
+#      - gcloud compute instances create bookshelf \
+#        --image-family=debian-8 \
+#        --image-project=debian-cloud \
+#        --machine-type=g1-small \
+#        --scopes userinfo-email,cloud-platform \
+#        --metadata-from-file startup-script=startup-scripts/startup-script.sh \
+#        --tags http-server
+      - gcloud compute firewall-rules create default-allow-http-80
+        --allow tcp:80
+        --source-ranges 0.0.0.0/0
+        --target-tags http-server
+        --description "Allow port 80 access to http-server"
+      - gcloud compute firewall-rules create default-allow-https-443
+        --allow tcp:443
+        --source-ranges 0.0.0.0/0
+        --target-tags http-server
+        --description "Allow port 443 access to http-server"
+  
   lint:
     desc: "Quick tests not required to build app"
     cmds:
@@ -40,6 +67,10 @@ tasks:
   lint-markdown:
     cmds:
       - docker run -i --rm -v $PWD:/work tmknom/markdownlint /work
+
+  .ssh-prod:
+    cmds:
+      - gcloud compute --project "mythic-guild-264223" ssh --zone "us-central1-a" "docker-machine-1"
 
   test:
     desc: "PHPStan & Test application. Run locally after deploy"
