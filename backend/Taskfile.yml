@@ -1,0 +1,35 @@
+---
+version: '2'
+
+tasks:
+  fix-cs:
+    desc: "Fix code style"
+    cmds:
+      - docker run --rm -iv $PWD:/data/ cytopia/php-cs-fixer fix
+
+  lint:
+    desc: "Quick tests not required to build app"
+    cmds:
+      - task: lint-cs
+      - task: lint-mnd
+  lint-cs:
+    desc: "Validate code style"
+    cmds:
+      - docker run --rm -iv $PWD:/data/ cytopia/php-cs-fixer fix --dry-run --diff
+  lint-composer:
+    desc: "Validate composer configuration"
+    cmds:
+      - docker run --rm -v $PWD:/app composer:1.9 validate --no-check-publish
+  lint-mnd:
+    desc: "Validate no magic numbers"
+    cmds:
+      - docker run --rm -v $PWD:/app dockerizedphp/phpmnd /app
+        --exclude=var --exclude=vendor --exclude=src/Pcs/Resources/blockslib/blocks
+        --non-zero-exit-on-violation
+
+  test:
+    desc: "PHPStan & Test application. Run locally after deploy"
+    cmds:
+      - docker-compose exec php vendor/bin/phpstan analyse /app
+      - docker-compose exec php vendor/bin/codecept run --steps
+
