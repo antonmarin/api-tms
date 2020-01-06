@@ -38,7 +38,6 @@ jobs:
           docker tag ${DEV_REPO}/nginx:latest ${IMAGES_PROD_NGINX}
         env:
           DEV_REPO: "api-tms" # same as Taskfile.yml vars.IMAGES_BASE_REPOSITORY
-          PROD_REPO: "gcr.io/mythic-guild-264223"
       - name: Push containers
         run: docker push ${IMAGES_PROD_PHP} ${IMAGES_PROD_NGINX}
       - name: Deploy to gcp
