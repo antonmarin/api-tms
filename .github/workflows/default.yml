@@ -3,6 +3,8 @@ on:
   push:
     branches:
       - master
+env:
+  PROD_REPO: "gcr.io/mythic-guild-264223"
 jobs: 
   build-and-deploy:
     name: Build app and deploy
@@ -10,7 +12,6 @@ jobs:
     env:
       IMAGES_PROD_NGINX: ${PROD_REPO}/nginx:${GITHUB_SHA}
       IMAGES_PROD_PHP: ${PROD_REPO}/php:${GITHUB_SHA}
-      PROD_REPO: "gcr.io/mythic-guild-264223"
     steps:
       - name: Checkout
         uses: actions/checkout@v1
