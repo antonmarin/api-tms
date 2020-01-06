@@ -10,8 +10,8 @@ jobs:
     name: Build app and deploy
     runs-on: ubuntu-18.04
     env:
-      IMAGES_PROD_NGINX: gcr.io/mythic-guild-264223/nginx:${{ github.sha }}
-      IMAGES_PROD_PHP: gcr.io/mythic-guild-264223/php:${{ github.sha }}
+      IMAGES_PROD_NGINX: ${{ env.PROD_REPO }}/nginx:${{ github.sha }}
+      IMAGES_PROD_PHP: ${{ env.PROD_REPO }}/php:${{ github.sha }}
     steps:
       - name: Checkout
         uses: actions/checkout@v1
@@ -39,7 +39,9 @@ jobs:
         env:
           DEV_REPO: "api-tms" # same as Taskfile.yml vars.IMAGES_BASE_REPOSITORY
       - name: Push containers
-        run: docker push ${IMAGES_PROD_PHP} ${IMAGES_PROD_NGINX}
+        run: |
+          docker push ${IMAGES_PROD_PHP} &&
+          docker push ${IMAGES_PROD_NGINX}
       - name: Deploy to gcp
         run: echo "deploy to gcp"
       
