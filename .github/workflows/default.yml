@@ -41,5 +41,7 @@ jobs:
           docker push ${IMAGES_PROD_PHP} &&
           docker push ${IMAGES_PROD_NGINX}
       - name: Deploy to gcp
-        run: echo "deploy to gcp"
+        run: |
+          gcloud deployment-manager deployments update production
+            --config deploy/production.yml
       
