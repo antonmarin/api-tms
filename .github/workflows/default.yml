@@ -3,15 +3,13 @@ on:
   push:
     branches:
       - master
-env:
-  PROD_REPO: "gcr.io/mythic-guild-264223"
 jobs: 
   build-and-deploy:
     name: Build app and deploy
     runs-on: ubuntu-18.04
     env:
-      IMAGES_PROD_NGINX: ${{ env.PROD_REPO }}/nginx:${{ github.sha }}
-      IMAGES_PROD_PHP: ${{ env.PROD_REPO }}/php:${{ github.sha }}
+      IMAGES_PROD_NGINX: ${{ secrets.PROD_REPO }}/nginx:${{ github.sha }}
+      IMAGES_PROD_PHP: ${{ secrets.PROD_REPO }}/php:${{ github.sha }}
     steps:
       - name: Checkout
         uses: actions/checkout@v1
