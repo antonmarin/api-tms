@@ -7,6 +7,10 @@ jobs:
   build-and-deploy:
     name: Build app and deploy
     runs-on: ubuntu-18.04
+    env:
+      IMAGES_PROD_NGINX: "${PROD_REPO}/nginx:${GITHUB_SHA}"
+      IMAGES_PROD_PHP: "${PROD_REPO}/php:${GITHUB_SHA}"
+      PROD_REPO: "gcr.io/mythic-guild-264223"
     steps:
       - name: Checkout
         uses: actions/checkout@v1
@@ -29,13 +33,13 @@ jobs:
         run: gcloud auth configure-docker
       - name: Tag containers to push
         run: |
-          docker tag ${DEV_REPO}/php:latest ${DEV_REPO}/php:${GITHUB_SHA} &&
-          docker tag ${DEV_REPO}/nginx:latest ${DEV_REPO}/nginx:${GITHUB_SHA}
+          docker tag ${DEV_REPO}/php:latest ${IMAGES_PROD_PHP} &&
+          docker tag ${DEV_REPO}/nginx:latest ${IMAGES_PROD_NGINX}
         env:
           DEV_REPO: "api-tms" # same as Taskfile.yml vars.IMAGES_BASE_REPOSITORY
           PROD_REPO: "gcr.io/mythic-guild-264223"
       - name: Push containers
-        run: echo "Push here"
+        run: docker push ${IMAGES_PROD_PHP} ${IMAGES_PROD_NGINX}
       - name: Deploy to gcp
         run: echo "deploy to gcp"
       
