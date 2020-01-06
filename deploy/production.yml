@@ -17,6 +17,7 @@ resources:
       tags:
         items:
           - http-server
+          - https-server
       disks:
         - deviceName: boot
           type: PERSISTENT
@@ -27,3 +28,6 @@ resources:
             sourceImage: projects/cos-cloud/global/images/family/cos-stable
       networkInterfaces:
         - network: global/networks/default
+          accessConfigs:
+            - name: External NAT
+              type: ONE_TO_ONE_NAT

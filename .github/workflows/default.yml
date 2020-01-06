@@ -43,7 +43,7 @@ jobs:
         run: |
           docker push ${IMAGES_PROD_PHP} &&
           docker push ${IMAGES_PROD_NGINX}
-      - name: Deploy to gcp
+      - name: Deploy resources
         run: |
           gcloud deployment-manager deployments update production
             --config deploy/production.yml
