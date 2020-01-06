@@ -14,10 +14,26 @@ jobs:
         uses: Arduino/actions/setup-taskfile@master
         with:
           version: '2.7.1'
+      - name: Docker info
+        run: docker info
       - name: Build containers
         run: task build
-      - name: Login to gcloud
-        run: echo "Login here"
+      - uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
+        with:
+          version: '274.0.1'
+          service_account_email: ${{ secrets.GCP_SA_EMAIL }}
+          service_account_key: ${{ secrets.GCP_SA_KEY }}
+      - name: GCloud info 
+        run: gcloud info
+      - name: Config docker to use gcp registry 
+        run: gcloud auth configure-docker
+      - name: Tag containers to push
+        run: |
+          docker tag ${DEV_REPO}/php:latest ${DEV_REPO}/php:${GITHUB_SHA} &&
+          docker tag ${DEV_REPO}/nginx:latest ${DEV_REPO}/nginx:${GITHUB_SHA}
+        env:
+          DEV_REPO: "api-tms" # same as Taskfile.yml vars.IMAGES_BASE_REPOSITORY
+          PROD_REPO: "gcr.io/mythic-guild-264223"
       - name: Push containers
         run: echo "Push here"
       - name: Deploy to gcp
