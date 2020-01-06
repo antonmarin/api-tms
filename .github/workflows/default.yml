@@ -8,8 +8,8 @@ jobs:
     name: Build app and deploy
     runs-on: ubuntu-18.04
     env:
-      IMAGES_PROD_NGINX: "${PROD_REPO}/nginx:${GITHUB_SHA}"
-      IMAGES_PROD_PHP: "${PROD_REPO}/php:${GITHUB_SHA}"
+      IMAGES_PROD_NGINX: ${PROD_REPO}/nginx:${GITHUB_SHA}
+      IMAGES_PROD_PHP: ${PROD_REPO}/php:${GITHUB_SHA}
       PROD_REPO: "gcr.io/mythic-guild-264223"
     steps:
       - name: Checkout
