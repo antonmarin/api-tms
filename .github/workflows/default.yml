@@ -45,6 +45,6 @@ jobs:
           docker push ${IMAGES_PROD_NGINX}
       - name: Deploy resources
         run: |
-          gcloud deployment-manager deployments update production
+          gcloud deployment-manager deployments update production \
             --config deploy/production.yml
       
