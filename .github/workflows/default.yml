@@ -48,5 +48,9 @@ jobs:
           gcloud deployment-manager deployments update production \
             --config deploy/production.yml
       - name: Deploy application
-        run: echo "docker stack deploy"
+        run: gcloud compute --project "mythic-guild-264223" ssh
+          --zone "us-central1-a" "production"
+          --command="IMAGES_TAG=${{ github.sha }} docker stack deploy
+            -c docker-compose.yml
+            api-tms-production"
       
