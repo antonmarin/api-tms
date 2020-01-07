@@ -35,13 +35,8 @@ tasks:
 #        --google-machine-image https://www.googleapis.com/compute/v1/projects/cos-cloud/global/images/cos-stable
 #        --google-tags http-server
 #        docker-machine-1
-#      - gcloud compute instances create bookshelf \
-#        --image-family=debian-8 \
-#        --image-project=debian-cloud \
-#        --machine-type=g1-small \
-#        --scopes userinfo-email,cloud-platform \
-#        --metadata-from-file startup-script=startup-scripts/startup-script.sh \
-#        --tags http-server
+      - gcloud deployment-manager deployments create production
+        --config deploy/production.yml
       - gcloud compute firewall-rules create default-allow-http-80
         --allow tcp:80
         --source-ranges 0.0.0.0/0
@@ -50,8 +45,8 @@ tasks:
       - gcloud compute firewall-rules create default-allow-https-443
         --allow tcp:443
         --source-ranges 0.0.0.0/0
-        --target-tags http-server
-        --description "Allow port 443 access to http-server"
+        --target-tags https-server
+        --description "Allow port 443 access to https-server"
   
   lint:
     desc: "Quick tests not required to build app"
@@ -69,7 +64,7 @@ tasks:
 
   .ssh-prod:
     cmds:
-      - gcloud compute --project "mythic-guild-264223" ssh --zone "us-central1-a" "docker-machine-1"
+      - gcloud compute --project "mythic-guild-264223" ssh --zone "us-central1-a" "production"
 
   test:
     desc: "PHPStan & Test application. Run locally after deploy"

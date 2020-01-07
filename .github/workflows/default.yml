@@ -47,4 +47,6 @@ jobs:
         run: |
           gcloud deployment-manager deployments update production \
             --config deploy/production.yml
+      - name: Deploy application
+        run: echo "docker stack deploy"
       
