@@ -50,12 +50,12 @@ jobs:
       - name: Upload deploy config
         run: gcloud compute --project "mythic-guild-264223" scp
           --zone "us-central1-a"
-          docker-compose.yaml production:/home/runner/
+          docker-compose.yaml production:/home/runner/api-tms/
       - name: Deploy application
         run: gcloud compute --project "mythic-guild-264223" ssh
           --zone "us-central1-a" "production"
           --command="IMAGES_TAG=${{ github.sha }} REPO=${{ secrets.PROD_REPO }}
             docker stack deploy
-            -c /home/runner/docker-compose.yaml
+            -c /home/runner/api-tms/docker-compose.yaml
             api-tms-production"
       
