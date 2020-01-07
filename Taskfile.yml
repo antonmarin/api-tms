@@ -67,7 +67,9 @@ tasks:
 
   .ssh-prod:
     cmds:
-      - gcloud compute --project "mythic-guild-264223" ssh --zone "us-central1-a" "production"
+      - gcloud compute --project "mythic-guild-264223" ssh
+        --zone "us-central1-a"
+        runner@production
 
   test:
     desc: "PHPStan & Test application. Run locally after deploy"
