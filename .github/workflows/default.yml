@@ -56,6 +56,6 @@ jobs:
           --zone "us-central1-a" "production"
           --command="IMAGES_TAG=${{ github.sha }} REPO=${{ secrets.PROD_REPO }}
             docker stack deploy
-            -c /home/runner/docker-compose.yml
+            -c /home/runner/docker-compose.yaml
             api-tms-production"
       
