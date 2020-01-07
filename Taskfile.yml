@@ -5,10 +5,6 @@ includes:
   backend: ./backend
   frontend: ./frontend
 
-vars:
-  IMAGES_BASE_REPOSITORY: "api-tms"
-  IMAGES_DEFAULT_TAG: "latest"
-
 tasks:
   build:
     desc: "Build full application"
@@ -24,6 +20,13 @@ tasks:
     vars:
       IMAGES_PHP: "{{.IMAGES_BASE_REPOSITORY}}/php:{{ default .IMAGES_DEFAULT_TAG .IMAGES_TAG }}"
       IMAGES_NGINX: "{{.IMAGES_BASE_REPOSITORY}}/nginx:{{ default .IMAGES_DEFAULT_TAG .IMAGES_TAG }}"
+      IMAGES_BASE_REPOSITORY: "api-tms"
+      IMAGES_DEFAULT_TAG: "latest"
+
+  deploy-dev:
+    desc: "Deploy application to develop"
+    cmds:
+      - docker-compose up -d --build
 
   .create-prod:
     cmds:

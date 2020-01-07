@@ -47,10 +47,14 @@ jobs:
         run: |
           gcloud deployment-manager deployments update production \
             --config deploy/production.yml
+      - name: Upload deploy config
+        run: gcloud compute --project "mythic-guild-264223" scp
+          docker-compose.yaml production:/home/runner/
       - name: Deploy application
         run: gcloud compute --project "mythic-guild-264223" ssh
           --zone "us-central1-a" "production"
-          --command="IMAGES_TAG=${{ github.sha }} docker stack deploy
-            -c docker-compose.yml
+          --command="IMAGES_TAG=${{ github.sha }} REPO=${{ secrets.PROD_REPO }}
+            docker stack deploy
+            -c /home/runner/docker-compose.yml
             api-tms-production"
       

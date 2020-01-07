@@ -5,6 +5,8 @@ services:
       context: backend
       dockerfile: build/Dockerfile
       target: php_runtime
+    env_file: .env
+    image: ${REPO}/php:${IMAGES_TAG}
     volumes:
       - "./backend:/app"
   nginx:
@@ -12,6 +14,8 @@ services:
       context: frontend
       dockerfile: build/Dockerfile
       target: nginx_runtime
+    env_file: .env
+    image: ${REPO}/nginx:${IMAGES_TAG}
     depends_on:
       - php
     volumes:
