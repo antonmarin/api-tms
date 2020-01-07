@@ -10,6 +10,7 @@ jobs:
     env:
       IMAGES_PROD_NGINX: ${{ secrets.PROD_REPO }}/nginx:${{ github.sha }}
       IMAGES_PROD_PHP: ${{ secrets.PROD_REPO }}/php:${{ github.sha }}
+      DEPLOYMENT_PATH: "/home/runner/api-tms"
     steps:
       - name: Checkout
         uses: actions/checkout@v1
@@ -50,12 +51,12 @@ jobs:
       - name: Upload deploy config
         run: gcloud compute --project "mythic-guild-264223" scp
           --zone "us-central1-a"
-          docker-compose.yaml production:/home/runner/api-tms/
+          docker-compose.yaml production:${DEPLOYMENT_PATH}/
       - name: Deploy application
         run: gcloud compute --project "mythic-guild-264223" ssh
           --zone "us-central1-a" "production"
           --command="IMAGES_TAG=${{ github.sha }} REPO=${{ secrets.PROD_REPO }}
             docker stack deploy
-            -c /home/runner/api-tms/docker-compose.yaml
+            -c ${DEPLOYMENT_PATH}/docker-compose.yaml
             api-tms-production"
       
