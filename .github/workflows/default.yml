@@ -49,6 +49,7 @@ jobs:
             --config deploy/production.yml
       - name: Upload deploy config
         run: gcloud compute --project "mythic-guild-264223" scp
+          --zone "us-central1-a"
           docker-compose.yaml production:/home/runner/
       - name: Deploy application
         run: gcloud compute --project "mythic-guild-264223" ssh
