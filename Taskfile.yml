@@ -29,17 +29,18 @@ tasks:
       - docker-compose up -d --build
 
   .create-prod:
+    # visit https://docs.docker.com/v17.12/machine/drivers/gce/#options for more info
     cmds:
-#      - docker-machine create
-#        --driver google
-#        --google-project mythic-guild-264223
-#        --google-zone us-central1-a
-#        --google-machine-type f1-micro
-#        --google-machine-image https://www.googleapis.com/compute/v1/projects/cos-cloud/global/images/cos-stable
-#        --google-tags http-server
-#        docker-machine-1
-      - gcloud deployment-manager deployments create production
-        --config deploy/production.yml
+      - docker-machine create
+        --driver google
+        --google-project mythic-guild-264223
+        --google-zone us-central1-a
+        --google-machine-type f1-micro
+        --google-tags http-server,https-server
+        docker-machine-1
+      #        --google-machine-image https://www.googleapis.com/compute/v1/projects/cos-cloud/global/images/family/cos-stable
+      #      - gcloud deployment-manager deployments create production
+#        --config deploy/production.yml
       - gcloud compute firewall-rules create default-allow-http-80
         --allow tcp:80
         --source-ranges 0.0.0.0/0
@@ -50,6 +51,9 @@ tasks:
         --source-ranges 0.0.0.0/0
         --target-tags https-server
         --description "Allow port 443 access to https-server"
+  .delete-prod:
+    cmds:
+      - docker-machine rm docker-machine-1
   
   lint:
     desc: "Quick tests not required to build app"
@@ -69,7 +73,7 @@ tasks:
     cmds:
       - gcloud compute --project "mythic-guild-264223" ssh
         --zone "us-central1-a"
-        runner@production
+        runner@docker-machine-1
 
   test:
     desc: "PHPStan & Test application. Run locally after deploy"
