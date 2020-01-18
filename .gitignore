@@ -2,7 +2,6 @@
 .php_cs.cache
 
 # terraform
-deploy/service-account-key.json
 deploy/.terraform/
 deploy/terraform.tfstate*
 deploy/terraform.tfvars
