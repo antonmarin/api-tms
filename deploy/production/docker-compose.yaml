@@ -1,0 +1,12 @@
+version: "3.7"
+services:
+  php:
+    env_file: .env
+    image: ${REPO}/php:${IMAGES_TAG}
+  nginx:
+    env_file: .env
+    image: ${REPO}/nginx:${IMAGES_TAG}
+    depends_on:
+      - php
+    ports:
+      - "8080:80"

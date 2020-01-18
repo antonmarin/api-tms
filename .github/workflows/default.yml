@@ -47,8 +47,8 @@ jobs:
       - name: Upload deploy config	
         run: gcloud compute --project "mythic-guild-264223" scp
           --zone "us-central1-c"
-          docker-compose.yaml runner@terraform-instance:${DEPLOYMENT_PATH}/
-      - name: Deploy application	
+          deploy/production/ runner@terraform-instance:${DEPLOYMENT_PATH}/
+      - name: Deploy application
         run: gcloud compute --project "mythic-guild-264223" ssh	runner@terraform-instance
           --zone "us-central1-c"
           --command="cd ${DEPLOYMENT_PATH} && ls -la &&
