@@ -7,11 +7,6 @@ provider "google" {
   zone    = "us-central1-c"
 }
 
-variable "google_service_account" {
-  type = string
-  description = "JSON string of google service account key file used to access GCP"
-}
-
 resource "google_compute_network" "vpc_network" {
   name = "terraform-network"
 }
