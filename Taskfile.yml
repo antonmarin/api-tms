@@ -68,8 +68,8 @@ tasks:
   .ssh-prod:
     cmds:
       - gcloud compute --project "mythic-guild-264223" ssh
-        --zone "us-central1-a"
-        runner@production
+        --zone "us-central1-c"
+        runner@terraform-instance
 
   test:
     desc: "PHPStan & Test application. Run locally after deploy"

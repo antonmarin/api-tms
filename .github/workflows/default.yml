@@ -44,3 +44,17 @@ jobs:
         run: |
           docker push ${IMAGES_PROD_PHP} &&
           docker push ${IMAGES_PROD_NGINX}
+      - name: Upload deploy config	
+        run: gcloud compute --project "mythic-guild-264223" scp	
+          --zone "us-central1-c"	
+          docker-compose.yaml terraform-instance:${DEPLOYMENT_PATH}/
+      - name: Deploy application	
+        run: gcloud compute --project "mythic-guild-264223" ssh	
+          --zone "us-central1-c" "terraform-instance"	
+          --command="docker run --rm
+              -e IMAGES_TAG=${{ github.sha }}
+              -e REPO=${{ secrets.PROD_REPO }}
+              -v /var/run/docker.sock:/var/run/docker.sock
+              -v $PWD:$PWD
+              -w=$PWD
+              docker/compose:1.24.0 up -d --no-build --remove-orphans"
