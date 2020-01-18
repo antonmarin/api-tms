@@ -1,6 +1,6 @@
 provider "google" {
   version = "~> 3.4"
-  credentials = file("service-account-key.json")
+  credentials = vars.google_service_account
 
   project = "mythic-guild-264223"
   region  = "us-central1"
