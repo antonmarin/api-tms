@@ -45,9 +45,9 @@ jobs:
           docker push ${IMAGES_PROD_PHP} &&
           docker push ${IMAGES_PROD_NGINX}
       - name: Upload deploy config	
-        run: gcloud compute --project "mythic-guild-264223" scp
-          --zone "us-central1-c"
-          deploy/production/* deploy/production/.* runner@terraform-instance:/home/runner/api-tms/
+        run: gcloud compute --project "mythic-guild-264223" scp \
+          --zone "us-central1-c" \
+          deploy/production/* deploy/production/.env.dist runner@terraform-instance:/home/runner/api-tms/
       - name: Deploy application
         run: gcloud compute --project "mythic-guild-264223" ssh	runner@terraform-instance
           --zone "us-central1-c"
