@@ -44,19 +44,3 @@ jobs:
         run: |
           docker push ${IMAGES_PROD_PHP} &&
           docker push ${IMAGES_PROD_NGINX}
-      - name: Deploy resources
-        run: |
-          gcloud deployment-manager deployments update production \
-            --config deploy/production.yml
-      - name: Upload deploy config
-        run: gcloud compute --project "mythic-guild-264223" scp
-          --zone "us-central1-a"
-          docker-compose.yaml production:${DEPLOYMENT_PATH}/
-      - name: Deploy application
-        run: gcloud compute --project "mythic-guild-264223" ssh
-          --zone "us-central1-a" "production"
-          --command="IMAGES_TAG=${{ github.sha }} REPO=${{ secrets.PROD_REPO }}
-            docker stack deploy
-            -c ${DEPLOYMENT_PATH}/docker-compose.yaml
-            api-tms-production"
-      
