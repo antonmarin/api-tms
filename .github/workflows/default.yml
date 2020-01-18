@@ -51,11 +51,11 @@ jobs:
       - name: Deploy application	
         run: gcloud compute --project "mythic-guild-264223" ssh	runner@terraform-instance
           --zone "us-central1-c"
-          --command="cd ${DEPLOYMENT_PATH} &&
+          --command="cd /home/runner/api-tms && ls -la &&
             docker run --rm
-              -e IMAGES_TAG=${{ github.sha }}
-              -e REPO=${{ secrets.PROD_REPO }}
+              -e IMAGES_TAG=latest
+              -e REPO=api-tms
               -v /var/run/docker.sock:/var/run/docker.sock
-              -v $PWD:$PWD
-              -w=$PWD
+              -v $$PWD:/app
+              -w=/app
               docker/compose:1.24.0 up -d --no-build --remove-orphans"
