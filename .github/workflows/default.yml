@@ -45,16 +45,25 @@ jobs:
           docker push ${IMAGES_PROD_PHP} &&
           docker push ${IMAGES_PROD_NGINX}
       - name: Upload deploy config	
-        run: gcloud compute --project "mythic-guild-264223" scp
-          --zone "us-central1-c"
-          deploy/production/* deploy/production/.env.dist runner@terraform-instance:/home/runner/api-tms/
+        run: |
+          gcloud compute --project "mythic-guild-264223" scp \
+            --zone "us-central1-c" \
+            deploy/production/* deploy/production/.env.dist runner@terraform-instance:/home/runner/api-tms/
       - name: Deploy application
-        run: gcloud compute --project "mythic-guild-264223" ssh	runner@terraform-instance
-          --zone "us-central1-c"
-          --command="cd ${DEPLOYMENT_PATH} && ls -la &&
-            docker run --rm
-              -e IMAGES_TAG=${{ github.sha }}
-              -v /var/run/docker.sock:/var/run/docker.sock
-              -v ${DEPLOYMENT_PATH}:/app
-              -w=/app
-              docker/compose:1.24.0 up -d --no-build --remove-orphans"
+        env:
+          IMAGES_TAG: ${{ github.sha }}
+          REPO: ${{ secrets.PROD_REPO }}
+        run: |
+          export DOCKER_AUTH_TOKEN="$(gcloud auth print-access-token)" && \
+          gcloud compute --project "mythic-guild-264223" ssh	runner@terraform-instance \
+            --zone "us-central1-c" \
+            --command=" \
+              docker login -u oauth2accesstoken -p "${DOCKER_AUTH_TOKEN}" https://"${REPO}" && \
+              cd ${DEPLOYMENT_PATH} && ls -la && \
+              docker run --rm \
+                -e IMAGES_TAG=${IMAGES_TAG} \
+                -v /var/run/docker.sock:/var/run/docker.sock \
+                -v /home/runner/.docker:/root/.docker \
+                -v ${DEPLOYMENT_PATH}:/app \
+                -w=/app \
+                docker/compose:1.24.0 up -d --no-build --remove-orphans"
