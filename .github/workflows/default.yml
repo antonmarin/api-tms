@@ -59,7 +59,7 @@ jobs:
             --zone "us-central1-c" \
             --command=" \
               docker login -u oauth2accesstoken -p "${DOCKER_AUTH_TOKEN}" https://"${REPO}" && \
-              cd ${DEPLOYMENT_PATH} && ls -la && \
+              cd ${DEPLOYMENT_PATH} && \
               docker run --rm \
                 -e IMAGES_TAG=${IMAGES_TAG} \
                 -v /var/run/docker.sock:/var/run/docker.sock \
