@@ -51,7 +51,8 @@ jobs:
       - name: Deploy application	
         run: gcloud compute --project "mythic-guild-264223" ssh	runner@terraform-instance
           --zone "us-central1-c"
-          --command="docker run --rm
+          --command="cd ${DEPLOYMENT_PATH} &&
+            docker run --rm
               -e IMAGES_TAG=${{ github.sha }}
               -e REPO=${{ secrets.PROD_REPO }}
               -v /var/run/docker.sock:/var/run/docker.sock
