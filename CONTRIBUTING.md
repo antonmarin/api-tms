@@ -71,12 +71,14 @@ and docker 5+ G of RAM
 We use GCP (Google cloud platform) and continuous deployment from master branch.
 
 To use:
-- [install `gcloud` cli tool](https://cloud.google.com/sdk/install).
 - `cp -n deploy/terraform.tfvars.dist deploy/terraform.tfvars`
 - Setup access to GCP
+    - [install `gcloud` cli tool](https://cloud.google.com/sdk/install).
     - gcloud auth application-default login.
     - Copy path to creds file from `Credentials saved to file: {PATH}` to deploy/terraform.tfvars
-- Download terraform state from [Terraform Cloud](https://app.terraform.io/app/antonmarin/workspaces/api-tms-prod/states)
+- Setup access to Terraform
+    - Get user token from https://app.terraform.io/app/settings/tokens
+    - `cat deploy/.terraformrc.dist | USER_TOKEN="${PASTE_TF_USER_TOKEN_HERE}" envsubst > ~/.terraformrc`
 
 ## Runtime
 
