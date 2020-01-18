@@ -1,2 +1,4 @@
 .env
 .php_cs.cache
+
+deploy/service-account-key.json
