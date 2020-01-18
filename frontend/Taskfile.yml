@@ -1,2 +1,7 @@
 ---
 version: '2'
+
+tasks:
+  lint:
+    cmds:
+      - ng lint
