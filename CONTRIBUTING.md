@@ -66,9 +66,17 @@ and docker 5+ G of RAM
 
 Где находятся наши серверы и как доставить приложение на них?
 
+### Resources
+
 We use GCP (Google cloud platform) and continuous deployment from master branch.
 
-To use first [install `gcloud` cli tool](https://cloud.google.com/sdk/install).
+To use:
+- [install `gcloud` cli tool](https://cloud.google.com/sdk/install).
+- `cp -n deploy/terraform.tfvars.dist deploy/terraform.tfvars`
+- Setup access to GCP
+    - gcloud auth application-default login.
+    - Copy path to creds file from `Credentials saved to file: {PATH}` to deploy/terraform.tfvars
+- Download terraform state from [Terraform Cloud](https://app.terraform.io/app/antonmarin/workspaces/api-tms-prod/states)
 
 ## Runtime
 
