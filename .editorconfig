@@ -5,7 +5,7 @@
 root = true
 
 [*]
-# Change these settings to your own preference
+charset = utf-8
 indent_style = space
 indent_size = 4
 
@@ -31,11 +31,15 @@ indent_size = 4
 
 [*.md]
 indent_size = unset
+max_line_length = off
 
 [*.sh]
 indent_style = tab
 
 [*.tf]
+indent_size = 2
+
+[*.ts]
 indent_size = 2
 
 [*.{yaml,yml}]
