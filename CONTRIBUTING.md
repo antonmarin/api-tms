@@ -4,8 +4,7 @@
 
 Что сделать чтобы приступить к разработке?
 
-- `docker-compose up -d`
-- `npm install -g @angular/cli && ng serve`
+`docker-compose up -d`
 
 ## Documenting
 
@@ -52,7 +51,6 @@ and docker 5+ G of RAM
 - Полезные команды:
   - `docker-compose exec php bash`
   - `task` [https://taskfile.dev](https://taskfile.dev)
-  - `ng` Angular CLI
 
 ## Tests
 

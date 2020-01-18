@@ -27,7 +27,6 @@ tasks:
     desc: "Deploy application to develop"
     cmds:
       - docker-compose up -d --build
-      - cd frontend && ng serve
 
   .create-prod:
     cmds:
@@ -57,7 +56,6 @@ tasks:
     cmds:
       - task: lint-dockerfile
       - task: backend:lint
-      - task: frontend:lint
   lint-dockerfile:
     desc: "Validate Dockerfile best practices"
     cmds:
@@ -66,9 +64,7 @@ tasks:
   lint-markdown:
     cmds:
       - docker run -i --rm -v $PWD:/work tmknom/markdownlint /work
-  lint-terraform:
-    cmds:
-      - docker run --rm -v ${PWD}:/data -t wata727/tflint deploy
+
   .ssh-prod:
     cmds:
       - gcloud compute --project "mythic-guild-264223" ssh
