@@ -33,6 +33,9 @@
 
 ### Frontend
 
+- ng dist folder is frontend/http, so change outDir of new project to http/{project}
+    it's made to avoid rewriting on nginx
+
 ### Pull request
 
 Как интегрируем код?
