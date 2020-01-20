@@ -2,5 +2,128 @@
   "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
   "version": 1,
   "newProjectRoot": "projects",
-  "projects": {}
+  "projects": {
+    "tms": {
+      "projectType": "application",
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "sass"
+        }
+      },
+      "root": "projects/tms",
+      "sourceRoot": "projects/tms/src",
+      "prefix": "app",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "options": {
+            "outputPath": "http/tms",
+            "index": "projects/tms/src/index.html",
+            "main": "projects/tms/src/main.ts",
+            "polyfills": "projects/tms/src/polyfills.ts",
+            "tsConfig": "projects/tms/tsconfig.app.json",
+            "aot": false,
+            "assets": [
+              "projects/tms/src/favicon.ico",
+              "projects/tms/src/assets"
+            ],
+            "styles": [
+              "projects/tms/src/styles.sass"
+            ],
+            "scripts": []
+          },
+          "configurations": {
+            "production": {
+              "fileReplacements": [
+                {
+                  "replace": "projects/tms/src/environments/environment.ts",
+                  "with": "projects/tms/src/environments/environment.prod.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "2mb",
+                  "maximumError": "5mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb",
+                  "maximumError": "10kb"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "browserTarget": "tms:build"
+          },
+          "configurations": {
+            "production": {
+              "browserTarget": "tms:build:production"
+            }
+          }
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "tms:build"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/tms/src/test.ts",
+            "polyfills": "projects/tms/src/polyfills.ts",
+            "tsConfig": "projects/tms/tsconfig.spec.json",
+            "karmaConfig": "projects/tms/karma.conf.js",
+            "assets": [
+              "projects/tms/src/favicon.ico",
+              "projects/tms/src/assets"
+            ],
+            "styles": [
+              "projects/tms/src/styles.sass"
+            ],
+            "scripts": []
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/tms/tsconfig.app.json",
+              "projects/tms/tsconfig.spec.json",
+              "projects/tms/e2e/tsconfig.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        },
+        "e2e": {
+          "builder": "@angular-devkit/build-angular:protractor",
+          "options": {
+            "protractorConfig": "projects/tms/e2e/protractor.conf.js",
+            "devServerTarget": "tms:serve"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "tms:serve:production"
+            }
+          }
+        }
+      }
+    }},
+  "defaultProject": "tms"
 }
