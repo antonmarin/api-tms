@@ -5,3 +5,6 @@
 deploy/.terraform/
 deploy/terraform.tfstate*
 deploy/terraform.tfvars
+
+# backend
+backend/vendor/

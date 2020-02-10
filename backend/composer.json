@@ -1,0 +1,13 @@
+{
+    "name": "antonmarin/api-tms",
+    "description": "Test management system made for automation",
+    "type": "project",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Anton Marin",
+            "email": "antonmarin85@gmail.com"
+        }
+    ],
+    "require": {}
+}
