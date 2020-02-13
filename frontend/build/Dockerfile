@@ -6,7 +6,7 @@ FROM node:13.6 as builder
 RUN npm install -g @angular/cli
 WORKDIR /app
 COPY package.json package-lock.json /app/
-RUN npm install --production --no-save
+RUN npm install --no-save
 COPY angular.json tsconfig.json tslint.json /app/
 COPY projects /app/projects
 RUN ng build --prod
