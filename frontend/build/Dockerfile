@@ -3,7 +3,7 @@ COPY build/nginx.conf /etc/nginx/conf.d/default.conf
 WORKDIR /app
 
 FROM node:13.6 as builder
-RUN npm install -g @angular/cli
+RUN npm install -g @angular/cli@^8.3.25
 WORKDIR /app
 COPY package.json package-lock.json /app/
 RUN npm install --no-save

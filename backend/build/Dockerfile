@@ -1,3 +1,4 @@
+FROM composer:1.9 as composer
 FROM php:7.4.2-fpm-alpine as php_runtime
 
 ENV HOME=/root
@@ -15,7 +16,7 @@ ENV COMPOSER_ALLOW_SUPERUSER 1
 COPY --from=composer /usr/bin/composer /usr/local/bin/
 COPY --from=composer /tmp/keys.dev.pub /tmp/keys.tags.pub ${HOME}/.composer/
 
-# hadolint ignore=DL3018
+# hadolint ignore=DL3018,SC2086
 RUN apk add --no-cache --virtual .build-deps \
     $PHPIZE_DEPS \
     && \
