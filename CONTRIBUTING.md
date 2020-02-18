@@ -5,7 +5,7 @@
 Что сделать чтобы приступить к разработке?
 
 - `docker-compose up -d`
-- Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`.
+- Run `cd frontend && ng serve` for a dev server. Navigate to `http://localhost:4200/`.
 
 ## Documenting
 
